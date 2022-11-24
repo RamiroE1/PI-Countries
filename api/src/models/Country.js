@@ -35,6 +35,9 @@ module.exports = (sequelize) => {
     population: {
       type: DataTypes.INTEGER,
     },
+    maps: {
+      type: DataTypes.TEXT,
+    },
   }, {
     timestamps: false,
   });

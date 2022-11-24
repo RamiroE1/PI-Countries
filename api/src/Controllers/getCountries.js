@@ -15,6 +15,7 @@ const getApiInfo = async () => {
             subregion: e.subregion,
             area: e.area,
             population: e.population,
+            maps: e.maps.googleMaps || ["Maps not found"],
         };
     });
     // console.log('getApiInfo: ',countrie);
@@ -24,10 +25,15 @@ const getApiInfo = async () => {
 
 const getInfoDB = async () => {
     const countriesDB = await Country.findAll({
-        include: {model: Activity,
-            attributes: ['id', 'name', 'difficulty', 'duration', 'season'],
-            through: { atributes: {}}},
-    })
+        include: {
+            model: Activity,
+            attributes:['name','difficulty','duration','season'],
+                through: {
+                    attributes: [],
+            },
+    }})
+
+
     if(!countriesDB.length) {
         return await Country.bulkCreate(await getApiInfo()); // Ejecuta las ceraciones en la DB de forma mucho mas rapida, sin la necesidad de consultar a la Api.
     }  else {

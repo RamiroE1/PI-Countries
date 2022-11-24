@@ -15,7 +15,7 @@ router.get('/countries', async (req,res) => {
         if(name){
             const countriName= infTotal?.filter((e) => e.name.toLowerCase().startsWith(name.toLowerCase()));
             console.log(countriName);
-            countriName? res.status(200).send(countriName) : res.status(404).json("err");
+            countriName? res.status(200).send(countriName) : res.status(404).json("Error");
         }else{
             res.status(200).json(infTotal)
         }
@@ -26,19 +26,18 @@ router.get('/countries', async (req,res) => {
 
 
 
-// router.get('/countries/:id', async (req,res) => {
-//     const {id}= req.params;
-//     try{
-//         const infoId= await getInfoDB();
-//         if(id){
-//         let countriesId= await infoId.filter((e) => e.id == id)
-//         countriesId.length?
-//         res.status(200).send(countriesId) :
-//         res.status(404).send("Countrie not found")
-//     }} catch(error) {
-//         console.log(error);
-//     }
-// });
 
+
+router.get('/countries/:id',async (req,res) => {
+    const id = req.params.id.toUpperCase(); 
+        const countriesTotal = await getInfoDB();
+    if(id){
+        let countriesId= await countriesTotal.filter( e => e.id==id)
+        countriesId.length? 
+         res.status(200).send(countriesId) : 
+         res.status(404).send('Invalid country')
+        
+    }
+});
 
 module.exports= router;

@@ -37,18 +37,40 @@ function rootReducer (state = initialState, action){
 
 
 
-        // case FILTER_BY_ACTIVITIES:
-        //     const allActivities = state.allCountries;
-        //     const filterActivities = action.payload === "Created" ? allActivities.filter(c => c.createdInDb) : allActivities.filter(c => !c.createdInDb)
-        //     return{
-        //         ...state,
-        //         countries: action.payload === "Activities" ? state.allActivities : 
-        //     } 
+        case FILTER_BY_POPULATION:
+            const popu = action.payload === "max"
+            ? state.countries.sort((a, b) => {
+                return b.population - a.population
+            })
+            : state.countries.sort((a, b) => {
+                return a.population - b.population
+            })
+            return {
+                ...state,
+                countries: popu
+            }
 
-        // case FILTER_BY_CONTINENT:
+        case FILTER_BY_CONTINENT:
+            const conti= state.allCountries;
+            const contiFilter= action.payload === 'All' ? conti : conti.filter(e => e.continents.includes(action.payload))
+            return {
+                ...state,
+                countries: contiFilter
+            }
 
 
-        // case FILTER_BY_POPULATION:
+
+        case FILTER_BY_ACTIVITIES:
+            const allCountries = state.allCountries
+            let filteredbyActivity = action.payload === 'All'
+            ? state.allCountries : allCountries.filter((c) => {
+                    const activities = c.activities.map((a) => a.name)
+                    return activities.includes(action.payload)
+                    });
+            return {
+                ...state,
+                countries: filteredbyActivity
+            };
 
 
         case SORT:

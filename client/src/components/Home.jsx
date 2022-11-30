@@ -6,7 +6,7 @@ import Card from "./Card/Card";
 import Paginado from "./Paginado/Paginado";
 import SearchBar from "./SearchBar/SearchBar";
 import f from "./Home.module.css";
-import { getActivities, getCountries, sort } from "../redux/actions";
+import { filterByContinent, filterByPopulation, filterByActivities, getActivities, getCountries, sort } from "../redux/actions";
 import imge2 from "../img/image-nasa.jpg";
 
 
@@ -18,7 +18,7 @@ export default function Home() {
     const dispatch = useDispatch();
     const allCountries = useSelector((state) => state.countries);
     const allActivities = useSelector((state) => state.activities);
-    const [order, setOrder] = useState('');
+    let [order, setOrder] = useState('');
     
     let [currentPage, setCurrentPage] = useState(1);
     let [countriesPerPage, setCountriesPerPage] = useState(10);
@@ -45,21 +45,23 @@ export default function Home() {
         dispatch(getCountries());
     }
 
-    // function handleFilterCreated(e){
-    //     e.preventDefault();
-    //     dispatch(filterByCreated(e.target.value));
-    //     setCurrentPage(1);
-    // }
+    function handleFilterByPopulation(e){
+            e.preventDefault();
+            dispatch(filterByPopulation(e.target.value));
+            setCurrentPage(1);
+            setOrder(`Ordenado ${e.target.value}`)
+        };
 
-    // function handleFilter(e){
-    //     e.preventDefault();
-    //     dispatch(filterBy(e.target.value));
-    // }
+    function handleFilterByContinent(e){
+        e.preventDefault();
+        dispatch(filterByContinent(e.target.value));
+        setOrder(`Ordenado ${e.target.value}`)
+    };
 
-    // function handleFilterActivities(e){
-    //     e.preventDefault();
-    //     dispatch(filterByActivities(e.target.value));
-    // }
+    function handleFilterByActivities(e){
+        e.preventDefault();
+        dispatch(filterByActivities(e.target.value));
+    }
 
     function handleSort(e){
         e.preventDefault();
@@ -80,32 +82,37 @@ export default function Home() {
 
 
         <div>
+            <h3> Alphabetical order </h3>
             <select onChange={e => handleSort(e)}>
-            <option value=""> Alphabetical order </option>
             <option value="alphAsc"> A-Z </option>
             <option value="alphDesc"> Z-A </option>
             </select>
 
-            {/* <select onChange={e => handleFilterActivities(e)}>
-            <option value=""> Activities </option>
-            <option value="activity"> All Activities </option>
-            <option value="name"> Name </option>
-            <option value="difficulty"> Difficulty </option>
-            <option value="duration"> Duration </option>
-            <option value="season"> Season </option>
+            <h3> Activities </h3>
+            <select onChange={e => handleFilterByActivities(e)}>
+            <option value="All"> All Activities </option>
+            {allActivities.map((a) => (
+            <option value={ a.name } key={ a.id }>{a.name}</option>
+            ))}
             </select>
 
-            <select onChange={e => (e)}>
-            <option value=""> Continent </option>
-            <option value=""> All Continent </option>
-            <option value="">  </option>
+            <h3> Continent </h3>
+            <select onChange={e => handleFilterByContinent(e)}>
+            <option value="All"> All Continent </option>
+            <option value="Europe"> Europe </option>
+            <option value="Oceania"> Oceania </option>
+            <option value="North America"> North America </option>
+            <option value="South America"> South America </option>
+            <option value="Africa"> Africa </option>
+            <option value="Asia"> Asia </option>
+            <option value="Antarctic"> Antartica </option>
             </select>
 
-            <select onChange={e => (e)}>
-            <option value=""> Amount of population </option>
-            <option value="">  </option>
-            <option value="">  </option>
-            </select> */}
+            <h3> Amount of population </h3>
+            <select onChange={e => handleFilterByPopulation(e)}>
+            <option value="max"> Maximum Population </option>
+            <option value="min"> Minimum Population </option>
+            </select>
 
 
         </div>

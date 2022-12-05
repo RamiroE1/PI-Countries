@@ -1,10 +1,11 @@
-import { GET_COUNTRIES, GET_ACTIVITIES, GET_NAME_COUNTRIES, POST_ACTIVITIES, FILTER_BY_ACTIVITIES, FILTER_BY_CONTINENT, FILTER_BY_POPULATION, SORT } from "../actions/action-types.js";
+import { GET_COUNTRIES, GET_ACTIVITIES, GET_ID_COUNTRIES, GET_NAME_COUNTRIES, POST_ACTIVITIES, FILTER_BY_ACTIVITIES, FILTER_BY_CONTINENT, FILTER_BY_POPULATION, SORT, DETAIL, DELETE_ACTIVITIES, CLEAN } from "../actions/action-types.js";
 
 
 const initialState = {
     allCountries: [],
     countries: [],
     activities: [],
+    details: [],
 };
 
 
@@ -96,10 +97,29 @@ function rootReducer (state = initialState, action){
                 countries: order
             }
 
+        case GET_ID_COUNTRIES:
+            return {
+                ...state,
+                details: action.payload
+            }
+        
+        case DELETE_ACTIVITIES:
+            return {
+                ...state,
+                activities: state.activities.filter((a) => a.id !== action.payload)
+            };
+        
+        case CLEAN:
+            return {
+                ...state,
+                countries: state.allCountries,
+            };
+
+
         default:
             return state;
     }
-}
+};
 
 
 

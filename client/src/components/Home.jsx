@@ -128,8 +128,8 @@ export default function Home() {
             currentCountries?.map(el => {
                 return(
                     <div key={el.id}>
-                    <Link to={"/home/" + el.id}>
-                    <Card name={el.name} flags={el.flags} continents={el.continents} key={el.id}/>
+                    <Link to={"/detail/" + el.id}>
+                    <Card name={el.name} flags={el.flags} continents={el.continents} key={el.id} id={el.id}/>
                     </Link>
                     </div>
                 );

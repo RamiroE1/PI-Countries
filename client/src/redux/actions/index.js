@@ -1,5 +1,6 @@
 import axios from "axios";
-import { GET_COUNTRIES, GET_ACTIVITIES, GET_NAME_COUNTRIES, FILTER_BY_ACTIVITIES, FILTER_BY_CONTINENT, FILTER_BY_POPULATION, SORT } from "./action-types.js";
+import Detail from "../../components/Detail/Detail.jsx";
+import { GET_COUNTRIES, GET_ACTIVITIES, GET_NAME_COUNTRIES, GET_ID_COUNTRIES, FILTER_BY_ACTIVITIES, FILTER_BY_CONTINENT, FILTER_BY_POPULATION, SORT, DELETE_ACTIVITIES, CLEAN } from "./action-types.js";
 
 export function getCountries(){
     return async function(dispatch){
@@ -27,6 +28,20 @@ export function getNameCountries(name){
             var json = await axios.get(`http://localhost:3001/countries?name=${name}`);
             return dispatch ({
                 type: GET_NAME_COUNTRIES,
+                payload: json.data
+            })
+        } catch (error){
+            console.log(error)
+        }
+    }
+}
+
+export function getIdCountries(id){
+    return async function (dispatch){
+        try{
+            var json = await axios.get(`http://localhost:3001/countries/${id}`);
+            return dispatch ({
+                type: GET_ID_COUNTRIES,
                 payload: json.data
             })
         } catch (error){
@@ -68,5 +83,25 @@ export function sort(payload){
     return{
         type: SORT,
         payload,
+    };
+}
+
+export function deleteActivities(id) {
+    return async function (dispatch) {
+        try{
+            const activities = await axios.delete(`http://localhost:3001/countries/${id}`);
+            return dispatch({
+                type: DELETE_ACTIVITIES,
+                payload: activities,
+            });
+        } catch (error){
+            alert(error)
+        }
+    };
+};
+
+export function clean() {
+    return {
+        type: CLEAN,
     };
 }

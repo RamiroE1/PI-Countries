@@ -10,6 +10,7 @@
 	align-items: center;
 	margin-top: 25px;
 	margin-bottom: 25px;
+	box-shadow: 15px 15px 30px #4b4040bb, -15px -15px 30px #3f5183bb;
 }
 
 .container:hover {
